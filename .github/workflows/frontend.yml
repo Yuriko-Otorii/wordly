@@ -16,7 +16,6 @@ jobs:
           node-version: 'lts/*'
           cache: 'npm'
       - run: cd Frontend && npm install
-      - run: cd Frontend && npm run lint
       - run: cd Frontend && npm run eslint
       # - run: npm run build
       # - run: npm run type-check
