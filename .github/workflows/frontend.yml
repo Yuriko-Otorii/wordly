@@ -1,0 +1,19 @@
+name: frontend
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+      - run: cd Frontend && npm install
+      - run: cd Frontend && npm run lint
