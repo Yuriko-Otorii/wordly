@@ -17,3 +17,4 @@ jobs:
           cache: 'npm'
       - run: cd Frontend && npm install
       - run: cd Frontend && npm run lint
+      - run: cd Frontend && npm run format
