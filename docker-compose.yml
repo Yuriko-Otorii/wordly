@@ -1,12 +1,12 @@
-version: '3.8'
+version: '3.8' # Version of the docker-compose file
 
 services:
   backend:
     build:
-      context: ./backend
+      context: ./Backend # Path to the backend Dockerfile
     container_name: backend
     ports:
-      - '8000:8000'
+      - '8000:8000' # Host machine : Container
     volumes:
       - ./backend:/app
     depends_on:
@@ -14,12 +14,12 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./Frontend # Path to the frontend Dockerfile
     container_name: frontend
     ports:
       - '3000:3000'
     volumes:
-      - ./frontend:/app
+      - ./frontend:/app 
       - /app/node_modules
       - /app/.next
     command: npm run dev
