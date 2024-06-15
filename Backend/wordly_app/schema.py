@@ -10,9 +10,10 @@ class UserType(DjangoObjectType):
 
 # Define the Query class to create GraphQL queries
 class Query(graphene.ObjectType):
-  users = graphene.List(graphene.NonNull(UserType))
 
-def resolve_users(self, info):
-  return User.objects.all()
+  users = graphene.List(UserType)
+
+  def resolve_users(self, info):
+    return User.objects.all()
 
 schema = graphene.Schema(query=Query)
