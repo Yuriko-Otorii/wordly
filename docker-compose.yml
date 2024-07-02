@@ -1,12 +1,17 @@
-version: '3.8' # Version of the docker-compose file
+version: '3.8'
 
 services:
   backend:
     build:
-      context: ./Backend # Path to the backend Dockerfile
+      context: ./Backend
     container_name: backend
     ports:
-      - '8000:8000' # Host machine : Container
+      - '8000:8000'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     volumes:
       - ./backend:/app
     depends_on:
@@ -14,7 +19,7 @@ services:
 
   frontend:
     build:
-      context: ./Frontend # Path to the frontend Dockerfile
+      context: ./Frontend
     container_name: frontend
     ports:
       - '3000:3000'
@@ -32,13 +37,19 @@ services:
     image: postgres:15-alpine
     container_name: db
     environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wordly_app_user -d wordly"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 volumes:
   pgdata:
