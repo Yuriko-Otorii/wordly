@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "wordly_app",
     'corsheaders',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
