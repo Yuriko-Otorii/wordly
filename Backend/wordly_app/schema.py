@@ -1,19 +1,14 @@
 import graphene
-from graphene_django.types import DjangoObjectType
-from wordly_app.models import User
+from django.contrib.auth import get_user_model
+from .mutations import CreateUser, LoginUser
+from .types import UserType
 
-# Define the User type to create GraphQL types (Graphene will create GraphQL types from this)
-class UserType(DjangoObjectType):
-  class Meta:
-    model = User
-    fields = ("id", "username", "email", "password")
-
-# Define the Query class to create GraphQL queries
 class Query(graphene.ObjectType):
+    users = graphene.List(UserType)
 
-  users = graphene.List(UserType)
+    def resolve_users(self, info, **kwargs):
+        return get_user_model().objects.all()
 
-  def resolve_users(self, info):
-    return User.objects.all()
-
-schema = graphene.Schema(query=Query)
+class Mutation(graphene.ObjectType):
+    create_user = CreateUser.Field()
+    token_auth = LoginUser.Field()
