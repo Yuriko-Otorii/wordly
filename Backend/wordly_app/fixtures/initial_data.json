@@ -1,0 +1,20 @@
+[
+  {
+    "model": "wordly_app.user",
+    "pk": 1,
+    "fields": {
+      "username": "Hikari",
+      "email": "hikari@email.com",
+      "password": "password1"
+    }
+  },
+  {
+    "model": "wordly_app.user",
+    "pk": 2,
+    "fields": {
+      "username": "Yuriko",
+      "email": "yuriko@email.com",
+      "password": "password2"
+    }
+  }
+]
