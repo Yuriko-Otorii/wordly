@@ -24,7 +24,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./frontend:/app 
+      - ./frontend:/app
       - /app/node_modules
       - /app/.next
     command: npm run dev
@@ -47,9 +47,9 @@ services:
     env_file:
       - .env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 5s
+      test: ['CMD-SHELL', 'pg_isready -U wordly_app_user -d wordly']
+      interval: 15s
+      timeout: 15s
       retries: 5
 volumes:
   pgdata:
