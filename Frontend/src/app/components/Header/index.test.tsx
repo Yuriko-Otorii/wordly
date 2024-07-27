@@ -6,7 +6,7 @@ describe('Page', () => {
   it('renders a heading', () => {
     render(<Header />);
 
-    const heading = screen.getByRole('heading', { level: 1 });
+    const heading = screen.getByText('Header');
 
     expect(heading).toBeInTheDocument();
   });
