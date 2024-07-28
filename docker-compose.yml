@@ -13,7 +13,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     volumes:
-      - ./backend:/app
+      - ./backend:/Backend
+    working_dir: /Backend
+    command: >
+      sh -c "watchmedo auto-restart --directory=/Backend --pattern=*.py --recursive --
+             python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
 
@@ -24,9 +28,9 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
+      - ./frontend:/Frontend
+      - /Frontend/node_modules
+      - /Frontend/.next
     command: npm run dev
     environment:
       - NODE_ENV=development
