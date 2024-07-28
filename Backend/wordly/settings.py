@@ -34,6 +34,7 @@ SECRET_KEY = 'django-insecure-=-*slc42oc-$lcz^#g322f2f=bm+x9_i6(c7_h2idkwq#3jn50
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+USE_RELOADER = True
 
 ALLOWED_HOSTS = []
 
@@ -47,10 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     "graphene_django",
     'corsheaders',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
-    'django_extensions',
     'rest_framework_simplejwt',
     "wordly_app",
 ]

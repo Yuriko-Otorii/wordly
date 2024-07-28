@@ -1,4 +1,4 @@
-from graphene import ObjectType, List, Field, ID, Int
+from graphene import ObjectType, List, Field, ID, Int, String
 import graphql_jwt
 from django.contrib.auth import get_user_model
 from .authentication import CreateUser, LoginUser
