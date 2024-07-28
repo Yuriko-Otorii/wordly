@@ -1,16 +1,16 @@
-import graphene
+from graphene import Mutation, Field, String
 from django.contrib.auth import get_user_model, authenticate
 from graphql_jwt.shortcuts import get_token
 from .types import UserType
 
-class CreateUser(graphene.Mutation):
-    user = graphene.Field(UserType)
-    token = graphene.String()
+class CreateUser(Mutation):
+    user = Field(UserType)
+    token = String()
 
     class Arguments:
-        username = graphene.String(required=True)
-        email = graphene.String(required=True)
-        password = graphene.String(required=True)
+        username = String(required=True)
+        email = String(required=True)
+        password = String(required=True)
 
     def mutate(self, info, username, email, password):
         user = get_user_model()(
@@ -24,13 +24,13 @@ class CreateUser(graphene.Mutation):
 
         return CreateUser(user=user, token=token)
 
-class LoginUser(graphene.Mutation):
-    token = graphene.String()
-    user = graphene.Field(UserType)
+class LoginUser(Mutation):
+    token = String()
+    user = Field(UserType)
 
     class Arguments:
-        email = graphene.String(required=True)
-        password = graphene.String(required=True)
+        email = String(required=True)
+        password = String(required=True)
 
     def mutate(self, info, email, password):
         user = authenticate(username=email, password=password)

@@ -1,4 +1,5 @@
 import graphene
+from graphql_jwt.middleware import JSONWebTokenMiddleware
 import wordly_app.schema
 
 class Query(wordly_app.schema.Query, graphene.ObjectType):

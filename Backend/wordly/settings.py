@@ -16,6 +16,9 @@ import os
 import datetime
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+MEDIA_ROOT = BASE_DIR.joinpath('image')
+MEDIA_URL = '/image/'
+
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, '.env'))
 
@@ -45,11 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "graphene_django",
-    "wordly_app",
     'corsheaders',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     'django_extensions',
     'rest_framework_simplejwt',
+    "wordly_app",
 ]
 
 MIDDLEWARE = [
