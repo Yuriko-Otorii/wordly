@@ -18,12 +18,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={worksans.className}>
-        <Theme
-          accentColor='crimson'
-          grayColor='sand'
-          radius='large'
-          scaling='95%'
-        >
+        <Theme accentColor='mint' grayColor='slate' scaling='95%'>
           {children}
         </Theme>
       </body>
