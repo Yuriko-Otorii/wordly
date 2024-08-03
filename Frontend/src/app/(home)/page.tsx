@@ -1,4 +1,4 @@
-import { Header } from '@/features/ui/layout/Header';
+import { Header } from '@/features/components/layout/Header';
 
 export default function Home() {
   return (
