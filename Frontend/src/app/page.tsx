@@ -1,9 +1,3 @@
-import { Header } from '@/features/components/layout/Header';
-
-export default function Home() {
-  return (
-    <main>
-      <Header />
-    </main>
-  );
+export default function Login() {
+  return <main>{/* TODO: login page */}</main>;
 }
