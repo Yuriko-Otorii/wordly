@@ -6,8 +6,8 @@ import TestIcon from '../../svg/TestIcon';
 
 export const Footer = () => {
   return (
-    <Container maxWidth='100%'>
-      <Flex justify='between' align='center'>
+    <Container width='100%' flexGrow='1' height='5vh'>
+      <Flex justify='between' align='center' position='sticky'>
         <Link>
           <HomeIcon />
         </Link>

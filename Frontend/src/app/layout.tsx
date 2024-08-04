@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={worksans.className}>
         <Theme accentColor='mint' grayColor='slate' scaling='95%'>
-          {children}
+          <div style={{ backgroundColor: '#EAF2F3' }}>{children}</div>
         </Theme>
       </body>
     </html>
