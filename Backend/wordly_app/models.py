@@ -28,6 +28,7 @@ class Word(models.Model):
     example = ArrayField(models.CharField(max_length=1000), blank=True, null=True)
     memory_process = models.IntegerField(default=1)
     test_count = models.IntegerField(default=0)
+    is_favorite = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

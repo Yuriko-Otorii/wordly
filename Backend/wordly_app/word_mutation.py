@@ -1,4 +1,4 @@
-from graphene import Mutation, Field, String, List, ID
+from graphene import Mutation, Field, String, List, ID, Boolean
 from graphql import GraphQLError
 from graphene_file_upload.scalars import Upload
 from .types import WordType, CategoryType
@@ -43,6 +43,10 @@ class CreateWord(Mutation):
             user = info.context.user
             if not user.is_authenticated:
                 raise GraphQLError('Authentication required.')
+
+            check_word_existing = Word.objects.filter(user=user, word=word).first()
+            if check_word_existing is not None:
+                raise GraphQLError('Word already exists.')
             
             category = Category.objects.filter(user=user, name=category_name).first()
 
@@ -75,10 +79,11 @@ class UpdateWord(Mutation):
         pronunciation = String()
         parts_of_speech = String()
         image = Upload()
+        is_favorite = Boolean()
 
     word = Field(WordType)
 
-    def mutate(self, info, word_id, word=None, category_name=None, definition=None, example=None, pronunciation=None, parts_of_speech=None, image=None):
+    def mutate(self, info, word_id, word=None, category_name=None, definition=None, example=None, pronunciation=None, parts_of_speech=None, image=None, is_favorite=None):
         try:
             user = info.context.user
             if not user.is_authenticated:
@@ -102,6 +107,8 @@ class UpdateWord(Mutation):
                 target_word.parts_of_speech = parts_of_speech
             if image is not None:
                 target_word.image = image
+            if is_favorite is not None:
+                target_word.is_favorite = is_favorite
 
             target_word.save()
 
