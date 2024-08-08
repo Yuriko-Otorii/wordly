@@ -142,3 +142,25 @@ class DeleteWord(Mutation):
             return DeleteWord(word=word)
         except Exception as e:
             raise GraphQLError(str(e))
+
+class UpdateMemoryProcess(Mutation):
+    class Arguments:
+        word_id = List(ID, required=True)
+
+    words = List(WordType)
+
+    def mutate(self, info, word_id):
+        try:
+            user = info.context.user
+            if not user.is_authenticated:
+                raise GraphQLError('Authentication required.')
+
+            words = Word.objects.filter(user=user, id__in=word_id)
+            for word in words:
+                word.memory_process = word.memory_process + 1
+                word.save()
+
+            return UpdateMemoryProcess(words=words)
+        except Exception as e:
+            raise GraphQLError(str(e))
+        

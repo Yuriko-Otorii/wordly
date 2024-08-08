@@ -2,7 +2,7 @@ from graphene import ObjectType, List, Field, ID, Int, String
 import graphql_jwt
 from django.contrib.auth import get_user_model
 from .authentication import CreateUser, LoginUser
-from .word_mutation import CreateCategory, CreateWord, UpdateWord, DeleteWord
+from .word_mutation import CreateCategory, CreateWord, UpdateWord, DeleteWord, UpdateMemoryProcess
 from .models import Word, Category, Definition
 from .types import UserType, WordType, CategoryType, DefinitionType
 from .word_query import GetWordsByUserId, GetWordsByCategory, GetWordTestByMemoryProcess
@@ -40,3 +40,4 @@ class Mutation(ObjectType):
     create_word = CreateWord.Field()
     update_word = UpdateWord.Field()
     delete_word = DeleteWord.Field()
+    update_memory_process = UpdateMemoryProcess.Field()
