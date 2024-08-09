@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.utils import timezone
+import datetime
+
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
@@ -29,6 +32,8 @@ class Word(models.Model):
     memory_process = models.IntegerField(default=1)
     test_count = models.IntegerField(default=0)
     is_favorite = models.BooleanField(default=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    next_memory_test_date = models.DateTimeField(default=timezone.now() + datetime.timedelta(days=1))
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

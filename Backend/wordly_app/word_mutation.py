@@ -1,9 +1,10 @@
+from graphql_jwt.decorators import login_required
 from graphene import Mutation, Field, String, List, ID, Boolean
 from graphql import GraphQLError
 from graphene_file_upload.scalars import Upload
 from .types import WordType, CategoryType
 from .models import Word, Definition, Category, User
-
+import datetime
 
 class CreateCategory(Mutation):
     class Arguments:
@@ -11,6 +12,7 @@ class CreateCategory(Mutation):
 
     category = Field(CategoryType)
 
+    @login_required
     def mutate(self, info, category_name):
         try:
             user = info.context.user
@@ -38,6 +40,7 @@ class CreateWord(Mutation):
 
     word = Field(WordType)
 
+    @login_required
     def mutate(self, info, word, category_name, definition, example=None, pronunciation=None, parts_of_speech=None, image=None):
         try:
             user = info.context.user
@@ -83,6 +86,7 @@ class UpdateWord(Mutation):
 
     word = Field(WordType)
 
+    @login_required
     def mutate(self, info, word_id, word=None, category_name=None, definition=None, example=None, pronunciation=None, parts_of_speech=None, image=None, is_favorite=None):
         try:
             user = info.context.user
@@ -127,6 +131,7 @@ class DeleteWord(Mutation):
 
     word = Field(WordType)
 
+    @login_required
     def mutate(self, info, word_id):
         try:
             user = info.context.user
@@ -149,6 +154,7 @@ class UpdateMemoryProcess(Mutation):
 
     words = List(WordType)
 
+    @login_required
     def mutate(self, info, word_id):
         try:
             user = info.context.user
@@ -158,6 +164,12 @@ class UpdateMemoryProcess(Mutation):
             words = Word.objects.filter(user=user, id__in=word_id)
             for word in words:
                 word.memory_process = word.memory_process + 1
+                if word.memory_process == 2:
+                    word.next_memory_test_date = word.next_memory_test_date + datetime.timedelta(days=7)
+                elif word.memory_process == 3:
+                    word.next_memory_test_date = word.next_memory_test_date + datetime.timedelta(days=14)
+                elif word.memory_process == 4:
+                    word.next_memory_test_date = word.next_memory_test_date + datetime.timedelta(days=30)
                 word.save()
 
             return UpdateMemoryProcess(words=words)

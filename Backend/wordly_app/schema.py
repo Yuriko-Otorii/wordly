@@ -5,12 +5,14 @@ from .authentication import CreateUser, LoginUser
 from .word_mutation import CreateCategory, CreateWord, UpdateWord, DeleteWord, UpdateMemoryProcess
 from .models import Word, Category, Definition
 from .types import UserType, WordType, CategoryType, DefinitionType
-from .word_query import GetWordsByUserId, GetWordsByCategory, GetWordTestByMemoryProcess
+from .word_query import GetWordsByUserId, GetWordsByCategory, GetWordTestByMemoryProcess, GetWordsByDate, GetFlashcardWordsFromAllCategories
 
 class Query(
     GetWordsByUserId,
     GetWordsByCategory,
     GetWordTestByMemoryProcess,
+    GetWordsByDate,
+    GetFlashcardWordsFromAllCategories,
     ObjectType,
     ):
     users = List(UserType)

@@ -1,36 +1,56 @@
-from graphene import ObjectType, List, ID
+from graphql_jwt.decorators import login_required
+from graphene import ObjectType, List, ID, String
 from .types import WordType, DefinitionChoiceType, WordTestType
 from .models import Word, Definition
-import random, copy
-
+from django.utils import timezone
+import random, datetime
 class GetWordsByUserId(ObjectType):
-  getWordsByUserId = List(WordType, user_id=ID())
+  getWordsByUserId = List(WordType)
 
-  def resolve_getWordsByUserId(self, info, user_id):
+  @login_required
+  def resolve_getWordsByUserId(self, info):
     user = info.context.user
+    user_id = user.id
     if user_id:
       return Word.objects.filter(user_id=user_id)
     return Word.objects.filter(user=user)
+  
+class GetFlashcardWordsFromAllCategories(ObjectType):
+  getFlashcardWordsFromAllCategories = List(WordType)
+
+  @login_required
+  def resolve_getFlashcardWordsFromAllCategories(self, info):
+    user = info.context.user
+    user_id = user.id
+    all_words = Word.objects.filter(user_id=user_id)
+    flashcard_words = random.sample(list(all_words), 10)
+    return flashcard_words
 
 class GetWordsByCategory(ObjectType):
   getWordsByCategory = List(WordType, category_id=ID())
 
+  @login_required
   def resolve_getWordsByCategory(self, info, category_id):
     return Word.objects.filter(category_id=category_id)
 
 class GetWordTestByMemoryProcess(ObjectType):
-  getWordTestByMemoryProcess = List(List(WordTestType), user_id=ID())
+  getWordTestByMemoryProcess = List(List(WordTestType))
 
-  def resolve_getWordTestByMemoryProcess(self, info, user_id):
-    memoryProcess1 = Word.objects.filter(user_id=user_id, memory_process=1)
-    memoryProcess2 = Word.objects.filter(user_id=user_id, memory_process=2)
-    memoryProcess3 = Word.objects.filter(user_id=user_id, memory_process=3)
-    memoryProcess4 = Word.objects.filter(user_id=user_id, memory_process=4)
+  @login_required
+  def resolve_getWordTestByMemoryProcess(self, info):
+    user = info.context.user
+    user_id = user.id
+    today = timezone.now()
+
+    memoryProcess1 = Word.objects.filter(user_id=user_id, memory_process=1, next_memory_test_date__lt=today)
+    memoryProcess2 = Word.objects.filter(user_id=user_id, memory_process=2, next_memory_test_date__lt=today)
+    memoryProcess3 = Word.objects.filter(user_id=user_id, memory_process=3, next_memory_test_date__lt=today)
+    memoryProcess4 = Word.objects.filter(user_id=user_id, memory_process=4, next_memory_test_date__lt=today)
     word_test_data1 = []
     word_test_data2 = []
     word_test_data3 = []
     word_test_data4 = []
-
+    
     def create_definition_options(word):
       all_definitions = []
       correct_def = Definition.objects.filter(word_id=word.id).order_by('?').first()
@@ -72,3 +92,27 @@ class GetWordTestByMemoryProcess(ObjectType):
 
     return word_test_data
   
+class GetWordsByDate(ObjectType):
+  getWordsByDate = List(WordType, date=String())
+
+  @login_required
+  def resolve_getWordsByDate(self, info, period):
+    user = info.context.user
+    user_id = user.id
+    now = timezone.now()
+    if period == 'yesterday':
+        start_date = now - datetime.timedelta(days=1)
+        end_date = now - datetime.timedelta(days=0)
+    elif period == 'week':
+        start_date = now - datetime.timedelta(weeks=1)
+        end_date = now
+    elif period == 'two_weeks':
+        start_date = now - datetime.timedelta(weeks=2)
+        end_date = now
+    elif period == 'month':
+        start_date = now - datetime.timedelta(days=30)
+        end_date = now
+    else:
+        raise ValueError("Invalid period")
+    
+    return Word.objects.filter(user_id=user_id, created_date__range=(start_date, end_date))
