@@ -1,9 +1,10 @@
-from graphene import Mutation, Field, String, List, ID
+from graphql_jwt.decorators import login_required
+from graphene import Mutation, Field, String, List, ID, Boolean
 from graphql import GraphQLError
 from graphene_file_upload.scalars import Upload
 from .types import WordType, CategoryType
 from .models import Word, Definition, Category, User
-
+import datetime
 
 class CreateCategory(Mutation):
     class Arguments:
@@ -11,6 +12,7 @@ class CreateCategory(Mutation):
 
     category = Field(CategoryType)
 
+    @login_required
     def mutate(self, info, category_name):
         try:
             user = info.context.user
@@ -38,11 +40,16 @@ class CreateWord(Mutation):
 
     word = Field(WordType)
 
+    @login_required
     def mutate(self, info, word, category_name, definition, example=None, pronunciation=None, parts_of_speech=None, image=None):
         try:
             user = info.context.user
             if not user.is_authenticated:
                 raise GraphQLError('Authentication required.')
+
+            check_word_existing = Word.objects.filter(user=user, word=word).first()
+            if check_word_existing is not None:
+                raise GraphQLError('Word already exists.')
             
             category = Category.objects.filter(user=user, name=category_name).first()
 
@@ -75,10 +82,12 @@ class UpdateWord(Mutation):
         pronunciation = String()
         parts_of_speech = String()
         image = Upload()
+        is_favorite = Boolean()
 
     word = Field(WordType)
 
-    def mutate(self, info, word_id, word=None, category_name=None, definition=None, example=None, pronunciation=None, parts_of_speech=None, image=None):
+    @login_required
+    def mutate(self, info, word_id, word=None, category_name=None, definition=None, example=None, pronunciation=None, parts_of_speech=None, image=None, is_favorite=None):
         try:
             user = info.context.user
             if not user.is_authenticated:
@@ -102,6 +111,8 @@ class UpdateWord(Mutation):
                 target_word.parts_of_speech = parts_of_speech
             if image is not None:
                 target_word.image = image
+            if is_favorite is not None:
+                target_word.is_favorite = is_favorite
 
             target_word.save()
 
@@ -120,6 +131,7 @@ class DeleteWord(Mutation):
 
     word = Field(WordType)
 
+    @login_required
     def mutate(self, info, word_id):
         try:
             user = info.context.user
@@ -135,3 +147,32 @@ class DeleteWord(Mutation):
             return DeleteWord(word=word)
         except Exception as e:
             raise GraphQLError(str(e))
+
+class UpdateMemoryProcess(Mutation):
+    class Arguments:
+        word_id = List(ID, required=True)
+
+    words = List(WordType)
+
+    @login_required
+    def mutate(self, info, word_id):
+        try:
+            user = info.context.user
+            if not user.is_authenticated:
+                raise GraphQLError('Authentication required.')
+
+            words = Word.objects.filter(user=user, id__in=word_id)
+            for word in words:
+                word.memory_process = word.memory_process + 1
+                if word.memory_process == 2:
+                    word.next_memory_test_date = word.next_memory_test_date + datetime.timedelta(days=7)
+                elif word.memory_process == 3:
+                    word.next_memory_test_date = word.next_memory_test_date + datetime.timedelta(days=14)
+                elif word.memory_process == 4:
+                    word.next_memory_test_date = word.next_memory_test_date + datetime.timedelta(days=30)
+                word.save()
+
+            return UpdateMemoryProcess(words=words)
+        except Exception as e:
+            raise GraphQLError(str(e))
+        
