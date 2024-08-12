@@ -6,14 +6,14 @@ on: push
 
 # List of jobs
 jobs:
-  test:
+  chromatic-deployment:
+    name: Deploy Storybook to chromatic
     # Operating System
     runs-on: ubuntu-latest
     # Job steps
     steps:
-      - uses: actions/checkout@v1
-      - run: npm
-        #👇 Adds Chromatic as a step in the workflow
+      - name: Checkout repository
+        uses: actions/checkout@v1
       - uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
         with:
