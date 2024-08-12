@@ -1,3 +1,5 @@
 {
-  "scripts": {}
+  "scripts": {
+    "build-storybook": "storybook build"
+  }
 }
