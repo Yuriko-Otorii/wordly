@@ -32,4 +32,8 @@ jobs:
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         DB_PORT: ${{ secrets.DB_PORT }}
       run: |
+        echo $POSTGRES_DB
+        echo $POSTGRES_USER
+        echo $POSTGRES_PASSWORD
+        echo $DB_PORT
         python manage.py test wordly_app.tests
