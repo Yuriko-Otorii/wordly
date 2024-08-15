@@ -1,7 +1,13 @@
 # Workflow name
 name: 'Chromatic Deployment'
+
 # Event for the workflow
 on: push
+
+defaults:
+  run:
+    working-directory: ./Frontend
+
 # List of jobs
 jobs:
   chromatic-deployment:
@@ -13,7 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v1
       - name: Navigate to Frontend directory
-        working-directory: ./Frontend
         run: npm ci
       - uses: chromaui/action@v1
         # Options required for Chromatic's GitHub Action
