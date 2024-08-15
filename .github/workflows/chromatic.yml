@@ -6,7 +6,7 @@ on: push
 
 defaults:
   run:
-    working-directory: ./Frontend
+    working-directory: Frontend
 
 # List of jobs
 jobs:
