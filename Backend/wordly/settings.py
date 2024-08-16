@@ -10,19 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
-import environ
 import os
 import datetime
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-MEDIA_ROOT = BASE_DIR.joinpath('image')
-MEDIA_URL = '/image/'
-
-env = environ.Env()
-env.read_env(os.path.join(BASE_DIR, '.env'))
-
-DB_URL = env('DATABASE_URL')
+DB_URL = os.environ.get('DATABASE_URL')
 
 AUTH_USER_MODEL = 'wordly_app.User'
 
@@ -93,11 +84,11 @@ WSGI_APPLICATION = 'wordly.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('POSTGRES_DB'),   
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'NAME': os.environ.get('POSTGRES_DB'),   
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'PORT': os.environ.get('DB_PORT'),
         'HOST': 'db',
-        'PORT': 5432,
     }
 }
 
