@@ -19,6 +19,12 @@ jobs:
         docker compose up -d
 
     - name: Run Django tests
+      env:
+        POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+        DB_PORT=5432
+        DB?URL=postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:${{ secrets.DB_PORT }}/${{ secrets.POSTGRES_DB }}
       run: |
         docker exec -it backend bash -c 'python manage.py test wordly_app.tests'
 
