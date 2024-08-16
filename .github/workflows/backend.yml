@@ -9,25 +9,24 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    environment:
-      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-      DB_PORT: ${{ secrets.DB_PORT }}
-      DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:${{ secrets.DB_PORT }}/${{ secrets.POSTGRES_DB }}
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Build and run Docker Compose
-      run: |
-        docker compose build backend
-        docker compose up -d backend
+      - name: Build and run Docker Compose
+        run: |
+          docker compose build backend
+          docker compose up -d backend
 
-    - name: Run Django tests
-      run: |
-        docker exec -it backend bash -c 'python manage.py test wordly_app.tests'
+      - name: Run Django tests
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:${{ secrets.DB_PORT }}/${{ secrets.POSTGRES_DB }}
+        run: |
+          docker exec -it backend bash -c 'python manage.py test wordly_app.tests'
 
-    - name: Stop Docker Compose
-      if: always()
-      run: docker compose down
+      - name: Stop Docker Compose
+        if: always()
+        run: docker compose down
