@@ -20,7 +20,7 @@ jobs:
 
     - name: Run Django tests
       run: |
-        docker compose exec -it backend bash -c 'python manage.py test wordly_app.tests'
+        docker exec -it backend bash -c 'python manage.py test wordly_app.tests'
 
     - name: Stop Docker Compose
       if: always()
