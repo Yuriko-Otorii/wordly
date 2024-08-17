@@ -24,7 +24,8 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: npm ci
+        run: |
+          echo "Current directory: $(pwd)" && npm ci
       - name: Run Chromatic
         uses: chromaui/action@latest
         # Options required for Chromatic's GitHub Action

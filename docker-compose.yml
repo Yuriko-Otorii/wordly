@@ -28,7 +28,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./Frontend:/Frontend
+      - ./frontend:/Frontend
       - /Frontend/node_modules
       - /Frontend/.next
     command: npm run dev
