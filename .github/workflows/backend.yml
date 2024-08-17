@@ -37,9 +37,7 @@ jobs:
           DB_PORT: ${{ secrets.DB_PORT }}
           DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:${{ secrets.DB_PORT }}/${{ secrets.POSTGRES_DB }}
         run: |
-          docker compose exec -T backend bash -c '
-          python manage.py makemigrations && python manage.py migrate && python manage.py test wordly_app.tests
-        '
+          docker compose exec -T backend bash -c 'python manage.py makemigrations && python manage.py migrate && python manage.py test wordly_app.tests'
       - name: Stop Docker Compose
         if: always()
         run: docker compose down
