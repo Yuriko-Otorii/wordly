@@ -10,7 +10,7 @@
     "format": "prettier --write 'src/**/*.tsx'",
     "test": "jest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@radix-ui/themes": "^3.1.1",
