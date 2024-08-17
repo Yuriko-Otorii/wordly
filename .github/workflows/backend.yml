@@ -24,10 +24,10 @@ jobs:
         run: |
           echo "Waiting for containers to be ready..."
           sleep 10s
-          docker-compose ps
+          docker compose ps
 
       - name: Check container logs
-        run: docker-compose logs
+        run: docker compose logs
 
       - name: Run Django tests
         env:
