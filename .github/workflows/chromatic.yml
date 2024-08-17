@@ -4,10 +4,6 @@ name: 'Chromatic Deployment'
 # Event for the workflow
 on: push
 
-defaults:
-  run:
-    working-directory: Frontend
-
 # List of jobs
 jobs:
   chromatic-deployment:
