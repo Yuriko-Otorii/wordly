@@ -1,0 +1,29 @@
+# Workflow name
+name: 'Chromatic Deployment'
+
+# Event for the workflow
+on: push
+
+defaults:
+  run:
+    working-directory: Frontend
+
+# List of jobs
+jobs:
+  chromatic-deployment:
+    name: Deploy Storybook to chromatic
+    # Operating System
+    runs-on: ubuntu-latest
+    # Job steps
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Chromatic
+        run: npx chromatic --project-token=${{ secrets.CHROMATIC_SECRET }} --exit-zero-on-changes
