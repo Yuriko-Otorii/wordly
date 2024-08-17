@@ -24,8 +24,7 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: |
-          echo "Current directory: $(pwd)" && npm ci
+        run: npm ci
       - name: Run Chromatic
         uses: chromaui/action@latest
         # Options required for Chromatic's GitHub Action
@@ -33,3 +32,4 @@ jobs:
           #👇 Chromatic projectToken, see https://storybook.js.org/tutorials/intro-to-storybook/react/ja/deploy/ to obtain it
           projectToken: ${{ secrets.CHROMATIC_SECRET }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          workingDir: Frontend
