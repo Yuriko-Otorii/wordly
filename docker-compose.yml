@@ -17,7 +17,7 @@ services:
       - ./backend:/Backend
     working_dir: /Backend
     command: >
-      sh -c "$ watchmedo auto-restart --pattern "*.py" --recursive --signal SIGTERM \
+      sh -c "watchmedo auto-restart --pattern "*.py" --recursive --signal SIGTERM \
         python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
