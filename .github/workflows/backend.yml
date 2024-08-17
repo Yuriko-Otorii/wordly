@@ -16,9 +16,15 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Build and run Docker Compose
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DATABASE_URL: postgres://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:${{ secrets.DB_PORT }}/${{ secrets.POSTGRES_DB }}
         run: |
-          docker compose build backend
-          docker compose up -d backend
+          docker compose build
+          docker compose up -d
 
       - name: Wait for containers to be ready
         run: |
