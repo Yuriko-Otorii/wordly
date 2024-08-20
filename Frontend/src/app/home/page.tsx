@@ -1,5 +1,7 @@
-import { Footer } from '@/features/ui/layout/Footer';
-import { Header } from '@/features/ui/layout/Header';
+'use client';
+
+import { Footer } from '@/components/ui/layout/Footer';
+import { Header } from '@/components/ui/layout/Header';
 import { Container, Flex } from '@radix-ui/themes';
 
 export default function Home() {
