@@ -1,0 +1,11 @@
+overwrite: true
+schema: 'http://localhost:8000/graphql/'
+generates:
+  src/features/graphql/types.ts:
+    documents: 'src/features/graphql/**/*.graphql'
+    config:
+      skipDocumentsValidation: true
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-graphql-request'
