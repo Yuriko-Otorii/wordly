@@ -1,3 +1,5 @@
+'use client';
+
 import { Footer } from '@/components/ui/layout/Footer';
 import { Header } from '@/components/ui/layout/Header';
 import { Container, Flex } from '@radix-ui/themes';
