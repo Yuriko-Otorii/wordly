@@ -1,9 +1,22 @@
-import { Flex, Text } from '@radix-ui/themes';
+import { Flex, Link, Text } from '@radix-ui/themes';
 
-export const Header = () => {
+type Props = {
+  userName: string;
+  pageName: string;
+  userSettingLink: string;
+};
+
+export const Header: React.FC<Props> = ({
+  userName,
+  pageName,
+  userSettingLink,
+}) => {
   return (
-    <Flex direction='column' gap='2'>
-      <Text>Header</Text>
+    <Flex display='flex' justify='between'>
+      <Text color='sky'>{pageName}</Text>
+      <Link color='green' href={userSettingLink}>
+        {userName}
+      </Link>
     </Flex>
   );
 };
