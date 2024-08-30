@@ -4,10 +4,16 @@ import { Input } from '.';
 const meta: Meta<typeof Input> = {
   component: Input,
   args: {
-    maxWidth: '240px',
     placeholder: 'type something...',
     label: 'Word',
   },
+  decorators: [
+    (Story) => (
+      <div className='w-60'>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
