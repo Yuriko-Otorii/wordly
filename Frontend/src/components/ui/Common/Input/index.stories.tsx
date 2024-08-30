@@ -6,6 +6,7 @@ const meta: Meta<typeof Input> = {
   args: {
     maxWidth: '240px',
     placeholder: 'type something...',
+    label: 'Word',
   },
 };
 
