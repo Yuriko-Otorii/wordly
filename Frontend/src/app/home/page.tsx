@@ -15,7 +15,11 @@ export default function Home() {
       }}
     >
       <Flex direction='column' height='100%' width='100%' justify='between'>
-        <Header />
+        <Header
+          userName='John'
+          pageName='Home'
+          userSettingLink='https://example.com/'
+        />
         <Flex flexGrow='1' width='100%' direction='column' height='90vh'>
           {/* Content goes here */}
           contents
