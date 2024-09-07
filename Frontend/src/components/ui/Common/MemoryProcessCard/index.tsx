@@ -10,10 +10,10 @@ type Props = {
 export const MemoryProcessCard: React.FC<Props> = (props) => {
   return (
     <Box width='100%'>
-      <Card>
+      <Card className='relative'>
         <Flex align='center' justify='between'>
-          <Grid columns={{ initial: '1', md: '2' }} gap='3'>
-            <Grid columns={{ initial: '1', md: '2' }}>
+          <Grid gap='3'>
+            <Grid>
               <Text as='div' size='2' weight='bold'>
                 Memory process: {props.memoryProcess}/4
               </Text>
@@ -26,11 +26,11 @@ export const MemoryProcessCard: React.FC<Props> = (props) => {
               Start now
             </Button>
           </Grid>
-          <Flex align='center'>
-            <div className='h-full w-full text-7xl font-extrabold text-[#F2F2F2]'>
-              {props.memoryProcess}
-            </div>
-          </Flex>
+        </Flex>
+        <Flex align='center'>
+          <div className='absolute right-0 top-1/2 z-[-1] -translate-y-1/2 text-[120px] font-extrabold text-[#F2F2F2]'>
+            {props.memoryProcess}
+          </div>
         </Flex>
       </Card>
     </Box>
