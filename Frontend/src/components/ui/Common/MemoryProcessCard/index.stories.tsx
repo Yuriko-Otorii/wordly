@@ -5,7 +5,7 @@ const meta: Meta<typeof MemoryProcessCard> = {
   component: MemoryProcessCard,
   decorators: [
     (Story) => (
-      <div className='w-60'>
+      <div className='max-w-[240px]'>
         <Story />
       </div>
     ),
