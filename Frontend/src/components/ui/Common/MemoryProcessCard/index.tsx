@@ -10,7 +10,7 @@ type Props = {
 export const MemoryProcessCard: React.FC<Props> = (props) => {
   return (
     <Box width='100%'>
-      <Card className='relative'>
+      <Card className='relative p-6'>
         <Flex align='center' justify='between'>
           <Grid gap='3'>
             <Grid>
@@ -28,7 +28,7 @@ export const MemoryProcessCard: React.FC<Props> = (props) => {
           </Grid>
         </Flex>
         <Flex align='center'>
-          <div className='absolute right-0 top-1/2 z-[-1] -translate-y-1/2 text-[120px] font-extrabold text-[#F2F2F2]'>
+          <div className='absolute right-2 top-1/2 z-[-1] -translate-y-1/2 text-[120px] font-extrabold text-[#F2F2F2]'>
             {props.memoryProcess}
           </div>
         </Flex>
